@@ -16,7 +16,7 @@ public class Controller {
 
         ObservableList<String> values =
                 Temperature.getTemperatures(
-                        1880,1881);
+                        1880, 2018);
 
         listview.setItems(values);
     }
