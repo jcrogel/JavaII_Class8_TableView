@@ -16,19 +16,25 @@ import javafx.collections.ObservableList;
 
 public class Temperature {
     private StringProperty year;
+    private StringProperty month;
     private FloatProperty value;
 
-    public Temperature(String year, float value){
+    public Temperature(String year, String month, float value){
         this.year = new SimpleStringProperty(this, "year");
+        this.month = new SimpleStringProperty(this, "month");
         this.value = new SimpleFloatProperty(this, "value");
         this.setYear(year);
         this.setValue(value);
+        this.setMonth(month);
     }
 
-    public String getYear() {
-        return year.get();
+    public String getMonth() {  return month.get(); }
+
+    public void setMonth(String month) {
+        this.month.set(month);
     }
 
+    public String getYear() {  return year.get(); }
 
     public void setYear(String _year) {
         this.year.set(_year);
@@ -62,9 +68,11 @@ public class Temperature {
 
             Set<Map.Entry<String, JsonElement>> entrySet = data.entrySet();
             for(Map.Entry<String,JsonElement> entry : entrySet){
-                String year = entry.getKey();
+                String raw_year = entry.getKey();
+                String year = raw_year.substring(0, 4);
+                String month = raw_year.substring(4, 6);
                 Float value = entry.getValue().getAsFloat();
-                values.add(new Temperature(year, value));
+                values.add(new Temperature(year, month, value));
             }
 
             return values;
